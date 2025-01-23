@@ -1,0 +1,454 @@
+openapi: 3.0.0
+info:
+  title: 学生成绩管理系统 API
+  description: 提供学生信息和成绩管理的 RESTful API 接口
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /undergraduates:
+    post:
+      summary: 添加本科生信息
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Undergraduate'
+      responses:
+        '201':
+          description: 本科生添加成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Undergraduate added successfully
+        '400':
+          description: 请求格式错误
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid request format
+  /graduates:
+    post:
+      summary: 添加研究生信息
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Graduate'
+      responses:
+        '201':
+          description: 研究生添加成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Graduate added successfully
+        '400':
+          description: 请求格式错误
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid request format
+  /students/{id}:
+    delete:
+      summary: 删除学生信息
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 学生删除成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Student deleted successfully
+        '400':
+          description: 请求格式错误或无效的学生ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid student id
+        '404':
+          description: 学生不存在
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Student with id 1 not found
+    put:
+      summary: 修改学生信息
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                gender:
+                  type: string
+                class:
+                  type: string
+      responses:
+        '200':
+          description: 学生修改成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Student modified successfully
+        '400':
+          description: 请求格式错误或无效的学生ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid student id
+        '404':
+          description: 学生不存在
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Student with id 1 not found
+    get:
+      summary: 查询学生信息
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 学生信息查询成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+        '400':
+          description: 请求格式错误或无效的学生ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid student id
+        '404':
+          description: 学生不存在
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Student with id 1 not found
+  /students/{id}/scores:
+    post:
+      summary: 增加学生成绩
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                course_name:
+                  type: string
+                score:
+                  type: number
+                  format: float64
+      responses:
+        '200':
+          description: 成绩添加成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Score added successfully
+        '400':
+          description: 请求格式错误或无效的学生ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid student id
+        '404':
+          description: 学生不存在
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Student with id 1 not found
+    put:
+      summary: 修改学生成绩
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                course_name:
+                  type: string
+                score:
+                  type: number
+                  format: float64
+      responses:
+        '200':
+          description: 成绩修改成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Score modified successfully
+        '400':
+          description: 请求格式错误或无效的学生ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid student id
+        '404':
+          description: 学生或课程成绩不存在
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Score for course Math not found for student with id 1
+  /students/{id}/scores/{course}:
+    delete:
+      summary: 删除学生成绩
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - in: path
+          name: course
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 成绩删除成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Score deleted successfully
+        '400':
+          description: 请求格式错误或无效的学生ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid student id
+        '404':
+          description: 学生或课程成绩不存在
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Score for course Math not found for student with id 1
+    get:
+      summary: 查询学生成绩
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - in: path
+          name: course
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 成绩查询成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  score:
+                    type: number
+                    format: float64
+                    example: 95.5
+        '400':
+          description: 请求格式错误或无效的学生ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid student id
+        '404':
+          description: 学生或课程成绩不存在
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Score for course Math not found for student with id 1
+  /import:
+    post:
+      summary: 并发导入 CSV 数据
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: CSV 数据导入成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: CSV data imported successfully
+        '400':
+          description: 请求格式错误或无效的文件
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid file
+components:
+  schemas:
+    Student:
+      type: object
+      properties:
+        name:
+          type: string
+        id:
+          type: integer
+          format: int32
+        gender:
+          type: string
+        class:
+          type: string
+        scores:
+          type: object
+          additionalProperties:
+            type: number
+            format: float64
+    Undergraduate:
+      allOf:
+        - $ref: '#/components/schemas/Student'
+    Graduate:
+      allOf:
+        - $ref: '#/components/schemas/Student'
