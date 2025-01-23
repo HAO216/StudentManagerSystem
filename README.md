@@ -1,4 +1,4 @@
-# StudentManagerSystem
+# StudentScoreManager
 
 StudentScoreManager.go
 <img width="1280" alt="联想截图_20250123114824" src="https://github.com/user-attachments/assets/e419838b-8be0-4926-8960-a77e4ac15967" />
